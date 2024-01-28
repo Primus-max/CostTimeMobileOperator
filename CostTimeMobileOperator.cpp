@@ -49,9 +49,9 @@ double Tarification(int mobileOperatorIndex)
 /// <param name="outcomeCost">Цена оператора исходящего звонка</param>
 /// <param name="timeCall">Мины звонка</param>
 /// <returns></returns>
-double CalcCostTime(double incomeCost, double outcomeCost, int timeCall) 
+double CalcCostTime(double outcomeCost, int timeCall) 
 {
-    return incomeCost + outcomeCost * timeCall;
+    return outcomeCost * timeCall;
 }
 
 /// <summary>
@@ -128,9 +128,14 @@ int main()
     double incomeCost = Tarification(incomOperatorIndex);
     double outcomeCost = Tarification(outcomeOperatorIndex);
 
-    costCall = CalcCostTime(incomeCost, outcomeCost, timeCall);
+    // Звонки внутри сети бесплатны
+    if (incomOperatorIndex == outcomeOperatorIndex) 
+    {
+        cout << "Звонки внутри сети беслпатны" << endl;
+        return 0;
+    }
 
-
+    costCall = CalcCostTime(outcomeCost, timeCall);
     // Вывод результата
     cout << "Стоимость разговора: " << fixed << setprecision(2) << costCall << " рублей" << endl;
 
